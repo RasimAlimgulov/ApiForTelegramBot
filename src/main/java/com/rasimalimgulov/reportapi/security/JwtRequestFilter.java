@@ -1,5 +1,6 @@
 package com.rasimalimgulov.reportapi.security;
 
+import com.rasimalimgulov.reportapi.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,11 +21,14 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
 
-    @Autowired
-    private JwtUtil jwtUtil;
+    final private UserService userDetailsService;
+    final private JwtUtil jwtUtil;
+
+    public JwtRequestFilter(UserService userDetailsService, JwtUtil jwtUtil) {
+        this.userDetailsService = userDetailsService;
+        this.jwtUtil = jwtUtil;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
