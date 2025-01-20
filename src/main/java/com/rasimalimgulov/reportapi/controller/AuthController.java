@@ -1,7 +1,7 @@
 package com.rasimalimgulov.reportapi.controller;
 
+import com.rasimalimgulov.reportapi.requests.AuthRequest;
 import com.rasimalimgulov.reportapi.entity.User;
-import com.rasimalimgulov.reportapi.security.AuthRequest;
 import com.rasimalimgulov.reportapi.security.JwtUtil;
 import com.rasimalimgulov.reportapi.service.UserServiceImpl;
 import lombok.extern.log4j.Log4j2;
@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Log4j2
 @RestController
-public class APIController {
+public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserServiceImpl userDetailsService;
     private final JwtUtil jwtUtil;
 
-    public APIController(AuthenticationManager authenticationManager, UserServiceImpl userDetailsService, JwtUtil jwtUtil, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public AuthController(AuthenticationManager authenticationManager, UserServiceImpl userDetailsService, JwtUtil jwtUtil, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;

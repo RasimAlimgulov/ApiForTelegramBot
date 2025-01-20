@@ -1,4 +1,4 @@
-package com.rasimalimgulov.reportapi.security;
+package com.rasimalimgulov.reportapi.requests;
 
 import lombok.Getter;
 import lombok.Setter;
