@@ -3,11 +3,14 @@ package com.rasimalimgulov.reportapi.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "report")
+@Table(name = "reports")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,24 +19,22 @@ import java.time.LocalDate;
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Report {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false)
-    private String reportType; // Income, Expense, Transfer
+    private String reportType;
 
     @Column(nullable = false)
-    private LocalDate periodStart;
+    private LocalDateTime generatedAt = LocalDateTime.now();
 
     @Column(nullable = false)
-    private LocalDate periodEnd;
+    private String filePath;
 
-    @Column(columnDefinition = "jsonb")
-    private String filters; // JSON string with filters like category, client, etc.
-
-    @Column
-    private String filePath; // Path to the generated report file
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
 }
 

@@ -7,7 +7,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(name = "expense_category")
+@Table(name = "expense_categories")
 @Getter
 @Setter
 @NoArgsConstructor
