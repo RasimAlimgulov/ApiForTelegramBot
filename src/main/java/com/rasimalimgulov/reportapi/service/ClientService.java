@@ -16,4 +16,7 @@ public class ClientService {
     public List<Client> getAllClientsByUser(User user) {
       return repository.findAllByUser(user);
     }
+    public Client addClient(Client client) {
+        return repository.save(client);
+    }
 }
