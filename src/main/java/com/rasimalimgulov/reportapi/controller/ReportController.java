@@ -60,7 +60,6 @@ public class ReportController {
         client.setUser(user.get());
         client.setFullName(newClientRequest.getClientName());
         client.setPhoneNumber(newClientRequest.getPhone());
-        client.set
         ServiceType serviceType = serviceTypeService.findServiceTypeByName(newClientRequest.getServiceType());
         if (serviceType == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Service type not found");
