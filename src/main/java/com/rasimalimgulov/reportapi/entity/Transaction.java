@@ -1,5 +1,7 @@
 package com.rasimalimgulov.reportapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -42,6 +44,7 @@ public class Transaction {
     @JoinColumn(name = "client_id")
     private Client client;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_type_id")
     private ServiceType serviceType;
@@ -59,6 +62,7 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private MoneyType moneyType;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

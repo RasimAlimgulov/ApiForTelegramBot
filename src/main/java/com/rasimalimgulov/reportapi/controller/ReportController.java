@@ -2,12 +2,15 @@ package com.rasimalimgulov.reportapi.controller;
 
 import com.rasimalimgulov.reportapi.entity.Client;
 import com.rasimalimgulov.reportapi.entity.ServiceType;
+import com.rasimalimgulov.reportapi.entity.Transaction;
 import com.rasimalimgulov.reportapi.entity.User;
 import com.rasimalimgulov.reportapi.requests.IncomeRequest;
 import com.rasimalimgulov.reportapi.requests.NewClientRequest;
 import com.rasimalimgulov.reportapi.requests.ServiceTypeRequest;
+import com.rasimalimgulov.reportapi.requests.TransactionIncomeRequest;
 import com.rasimalimgulov.reportapi.service.ClientService;
 import com.rasimalimgulov.reportapi.service.ServiceTypeService;
+import com.rasimalimgulov.reportapi.service.TransactionService;
 import com.rasimalimgulov.reportapi.service.UserService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -24,11 +27,12 @@ public class ReportController {
     private final UserService userService;
     private final ClientService clientService;
     private final ServiceTypeService serviceTypeService;
-
-    public ReportController(UserService userService, ClientService clientService, ServiceTypeService serviceTypeService) {
+    private final TransactionService transactionService;
+    public ReportController(UserService userService, ClientService clientService, ServiceTypeService serviceTypeService, TransactionService transactionService) {
         this.userService = userService;
         this.clientService = clientService;
         this.serviceTypeService = serviceTypeService;
+        this.transactionService = transactionService;
     }
 
     @PostMapping("/income")
@@ -85,5 +89,10 @@ public class ReportController {
         return serviceType;
     }
 
+    @PostMapping("/addincome")
+    public Transaction addIncome(@RequestBody TransactionIncomeRequest incomeRequest){
+       Transaction transaction=transactionService.saveTransaction(incomeRequest);
+       return transaction;
+    }
 
 }

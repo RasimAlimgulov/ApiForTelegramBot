@@ -1,5 +1,7 @@
 package com.rasimalimgulov.reportapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,6 +11,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "user_table")
@@ -45,4 +49,8 @@ public class User {
 
     @Version
     private int version;
+
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+//    private List<Transaction> transactions = new ArrayList<>();
 }
