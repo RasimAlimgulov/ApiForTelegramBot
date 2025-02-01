@@ -1,17 +1,11 @@
 package com.rasimalimgulov.reportapi.controller;
 
-import com.rasimalimgulov.reportapi.entity.Client;
-import com.rasimalimgulov.reportapi.entity.ServiceType;
-import com.rasimalimgulov.reportapi.entity.Transaction;
-import com.rasimalimgulov.reportapi.entity.User;
+import com.rasimalimgulov.reportapi.entity.*;
 import com.rasimalimgulov.reportapi.requests.IncomeRequest;
 import com.rasimalimgulov.reportapi.requests.NewClientRequest;
 import com.rasimalimgulov.reportapi.requests.ServiceTypeRequest;
 import com.rasimalimgulov.reportapi.requests.TransactionIncomeRequest;
-import com.rasimalimgulov.reportapi.service.ClientService;
-import com.rasimalimgulov.reportapi.service.ServiceTypeService;
-import com.rasimalimgulov.reportapi.service.TransactionService;
-import com.rasimalimgulov.reportapi.service.UserService;
+import com.rasimalimgulov.reportapi.service.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -28,11 +22,13 @@ public class ReportController {
     private final ClientService clientService;
     private final ServiceTypeService serviceTypeService;
     private final TransactionService transactionService;
-    public ReportController(UserService userService, ClientService clientService, ServiceTypeService serviceTypeService, TransactionService transactionService) {
+    private final ExpenseCategoriesService expenseCategoriesService;
+    public ReportController(UserService userService, ClientService clientService, ServiceTypeService serviceTypeService, TransactionService transactionService, ExpenseCategoriesService expenseCategoriesService) {
         this.userService = userService;
         this.clientService = clientService;
         this.serviceTypeService = serviceTypeService;
         this.transactionService = transactionService;
+        this.expenseCategoriesService = expenseCategoriesService;
     }
 
     @PostMapping("/income")
@@ -93,6 +89,12 @@ public class ReportController {
     public Transaction addIncome(@RequestBody TransactionIncomeRequest incomeRequest){
        Transaction transaction=transactionService.saveTransaction(incomeRequest);
        return transaction;
+    }
+
+    @GetMapping("/expensecategories")
+    public List<ExpenseCategory> getExpenseCategories(@RequestParam String username) {
+        List<ExpenseCategory> expenseCategories=expenseCategoriesService.getAllExpenseCategoriesByUserId(username);
+        return expenseCategories;
     }
 
 }
