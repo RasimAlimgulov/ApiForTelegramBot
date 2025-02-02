@@ -1,10 +1,7 @@
 package com.rasimalimgulov.reportapi.controller;
 
 import com.rasimalimgulov.reportapi.entity.*;
-import com.rasimalimgulov.reportapi.requests.IncomeRequest;
-import com.rasimalimgulov.reportapi.requests.NewClientRequest;
-import com.rasimalimgulov.reportapi.requests.ServiceTypeRequest;
-import com.rasimalimgulov.reportapi.requests.TransactionIncomeRequest;
+import com.rasimalimgulov.reportapi.requests.*;
 import com.rasimalimgulov.reportapi.service.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -60,7 +57,8 @@ public class ReportController {
         client.setUser(user.get());
         client.setFullName(newClientRequest.getClientName());
         client.setPhoneNumber(newClientRequest.getPhone());
-        ServiceType serviceType = serviceTypeService.findServiceTypeByName(newClientRequest.getServiceType());
+        log.info("addClient method: serviceType: " + newClientRequest.getServiceType() + ", client: " + client);
+        ServiceType serviceType = serviceTypeService.findServiceTypeByNameAndUser(newClientRequest.getServiceType(),user.get());
         if (serviceType == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Service type not found");
         }
@@ -87,14 +85,24 @@ public class ReportController {
 
     @PostMapping("/addincome")
     public Transaction addIncome(@RequestBody TransactionIncomeRequest incomeRequest){
-       Transaction transaction=transactionService.saveTransaction(incomeRequest);
+       Transaction transaction=transactionService.saveIncomeTransaction(incomeRequest);
        return transaction;
+    }
+    @PostMapping("/addoutcome")
+    public Transaction addOutcome(@RequestBody TransactionOutcomeRequest outcomeRequest){
+        Transaction transaction=transactionService.saveOutcomeTransaction(outcomeRequest);
+        return transaction;
     }
 
     @GetMapping("/expensecategories")
     public List<ExpenseCategory> getExpenseCategories(@RequestParam String username) {
         List<ExpenseCategory> expenseCategories=expenseCategoriesService.getAllExpenseCategoriesByUserId(username);
         return expenseCategories;
+    }
+
+    @PostMapping("/addexpensecategory")
+    public ExpenseCategory addExpenseCategory(@RequestBody ExpCatRequest categoryRequest){
+      return expenseCategoriesService.addExpenseCategory(categoryRequest.getNameExpenseCategory(),categoryRequest.getUsername());
     }
 
 }

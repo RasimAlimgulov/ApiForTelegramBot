@@ -21,5 +21,13 @@ private final UserRepository userRepository;
                 .orElseThrow(() -> new IllegalArgumentException("User not found with username: " + username));
         return expenseCategoriesRepository.findAllByUser(user);
     }
+    public ExpenseCategory addExpenseCategory(String nameCategory,String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with username: " + username));
+        ExpenseCategory expenseCategory=new ExpenseCategory();
+        expenseCategory.setName(nameCategory);
+        expenseCategory.setUser(user);
+        return expenseCategoriesRepository.save(expenseCategory);
+    }
 }
 

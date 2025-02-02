@@ -6,7 +6,6 @@ import com.rasimalimgulov.reportapi.repository.ServiceTypeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ServiceTypeService {
@@ -29,7 +28,7 @@ public class ServiceTypeService {
         serviceType.setName(nameServiceType);
         return serviceTypeRepository.save(serviceType);
     }
-    public ServiceType findServiceTypeByName(String name) {
-        return serviceTypeRepository.findServiceTypeByName(name);
+    public ServiceType findServiceTypeByNameAndUser(String serviceTypeName,User user) {
+        return serviceTypeRepository.findServiceTypeByNameAndUser(serviceTypeName,user);
     }
 }
