@@ -35,8 +35,5 @@ public class ServiceType {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "serviceType", fetch = FetchType.LAZY)
-//    private List<Transaction> transactions = new ArrayList<>();
 }
 
