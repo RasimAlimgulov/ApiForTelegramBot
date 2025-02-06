@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Log4j2
@@ -54,4 +55,24 @@ public class UserServiceImpl implements UserService {
                 , Collections.singletonList(new SimpleGrantedAuthority(user.get().getRole())));
     }
 
+    public void changeLogin(String username, String newLogin) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        user.setUsername(newLogin);
+        userRepository.save(user);
+    }
+
+    public void changePassword(String username, String newPassword) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
+    public List<String> getRoles(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return List.of(user.getRole());
+    }
 }
